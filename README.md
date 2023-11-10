@@ -1,19 +1,15 @@
-# python-template
-A template repository for Python 3 projects.
+# Weather Ball
+Weather Ball is a Python script that generates templates for CastFORM.  
+It automatically searches for the official registration sheet from Pokémon's official website, downloads a copy, and converts it to `webp` for use in CastFORM.
 
-This template provides a logger, as well as set-up and start scripts.
+## Tech Stack
+Weather Ball is developed using Python 3.12. The entry point is `main.py`.
 
 ## Usage
-1. Follow [this guide](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template#creating-a-repository-from-a-template) to create a repository from this template.
-2. Clone your repository, and `cd` to it
-3. If your repository requires external dependencies:
-    - Run `python -m venv venv` to create a `venv` folder for local dependencies
-    - Use `venv/scripts/activate` to start using the virtual environment
-    - Use `pip` to install the desired dependencies
-    - Use `pip freeze > requirements.txt` to export the list of depencencies
-4. (Bash-only) Instruct users to use `setup.sh` to set up their virtual environment in your `README.md`
-5. Instruct users to use `start.bat`/`start.sh` to run the program in your `README.md`
-6. Test run `main.py` using `start.bat`/`start.sh`
-7. Refer to the example in `main.py` to see how to import, instantiate, and use the logger
-    - Log files are saved to `/logs` and rotated at midnight.
-    - Log files are automatically excluded from git
+*These instructions assume you already have Python added to Path*
+1. Clone, and `cd` to this repository
+2. Set up your virtual environment
+    - Linux: run `setup.sh`
+    - Windows: run `start.sh`
+3. Run `start.bat`/`start.sh` to run the program
+    - If unsure, select the virtual environment when prompted
