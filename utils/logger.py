@@ -7,7 +7,7 @@ from logging.handlers import TimedRotatingFileHandler
 # Use a config file for these, in larger projects:
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 FORMATTER = logging.Formatter(LOG_FORMAT)
-LOG_DIR = Path("logs")
+LOG_DIR = Path("../logs")
 ACTIVE_LOG_NAME = "logger.log"
 
 

@@ -13,3 +13,4 @@ If you're using Chocolatey, install them using the following command: `choco ins
     - Windows: run `start.sh`
 3. Run `start.bat`/`start.sh` to run the program
     - If unsure, select the virtual environment when prompted
+4. Check `./out` for the `webp` files
