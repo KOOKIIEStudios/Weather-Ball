@@ -30,7 +30,6 @@ def get_base_selector(uri: str) -> Selector:
         uri,
         headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"},
     )
-    log.debug(raw_content.text)
     return Selector(text=raw_content.text)
 
 

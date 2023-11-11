@@ -35,7 +35,7 @@ if __name__ == "__main__":
 
         # sanity check
         downloaded_files = [file.name for file in list(temp_folder.glob("*.pdf"))]
-        log.debug("Downloaded: ", ", ".join(downloaded_files))
+        log.debug("Downloaded: ", downloaded_files)
         # Convert to PIL
         # Export to output dir
 

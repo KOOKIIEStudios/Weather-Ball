@@ -17,8 +17,8 @@
 # Contact via Discord: `sessionkookiie`
 from pathlib import Path
 
-import downloader
-import scraper
+from . import downloader
+from . import scraper
 
 
 class Web:
