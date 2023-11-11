@@ -15,6 +15,12 @@ Weather Ball supports 2 modes of operation:
   - Downloads are saved as temp files, which get deleted after use
   - This was the original project algorithm
 
+## A rose by any other name would smell as sweet
+Weather Bell is designed as a part of the toolchain for [CastFORM](https://github.com/BAA-Studios/CastFORM), a Pokémon registration sheet filler.  
+Being a form-automation application based around Pokémon TCG, CastFORM is a play on words using the name of one of the 
+playable Pokémon.   
+This project inherits its name from Castform's unique skill in the game. 
+
 ## Tech Stack
 Weather Ball is developed using Python 3.12 and Poppler. The entry point is `main.py`.  
 If you're using Chocolatey, install them using the following command: `choco install python poppler`
