@@ -15,6 +15,29 @@
 # along with Weather Ball. If not, see <https://www.gnu.org/licenses/>.
 #
 # Contact via Discord: `sessionkookiie`
-from utils import logger
+from pathlib import Path
+
+from PIL import Image
+
+from utils import config, logger
 
 log = logger.get_logger(__name__)
+
+
+def save(image_object: Image, file_path: Path) -> None:
+    log.info("Saving as ", file_path.name)
+    image_object.save(
+        file_path,
+        format="WEBP",
+        lossless=True,
+        quality=100,
+        method=6,
+    )
+
+
+def save_a4(image_object: Image) -> None:
+    save(image_object, config.OUTPUT_FOLDER / config.OUTPUT_FILE_NAME.a4)
+
+
+def save_letter(image_object: Image) -> None:
+    save(image_object, config.OUTPUT_FOLDER / config.OUTPUT_FILE_NAME.letter)

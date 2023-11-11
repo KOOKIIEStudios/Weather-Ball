@@ -15,10 +15,11 @@
 # along with Weather Ball. If not, see <https://www.gnu.org/licenses/>.
 #
 # Contact via Discord: `sessionkookiie`
+from pathlib import Path
+
 from pdf2image import convert_from_path
 from pdf2image.exceptions import (
     PDFInfoNotInstalledError,
-    PDFPageCountError,
     PDFSyntaxError
 )
 
@@ -27,4 +28,11 @@ from utils import logger
 log = logger.get_logger(__name__)
 
 
-
+def read_pdf(pdf: Path, temp_folder: Path):
+    try:
+        output = convert_from_path(pdf, dpi=300, output_folder=temp_folder, single_file=True)
+        return output[0]
+    except PDFInfoNotInstalledError:
+        log.error("Poppler not detected! See README for installation instructions.")
+    except PDFSyntaxError:
+        log.error("PDF file %s could not be read", pdf.name)

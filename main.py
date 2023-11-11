@@ -18,15 +18,21 @@
 import sys
 import tempfile
 
+from manipulation import pdf, webp
 from utils import config, io, logger
 from web import Web
 
 log = logger.get_logger(__name__)
 
 
-def local_mode() -> None:
+def local_mode(pdf_path_list: list) -> None:
     log.info("PDF files found in local input folder; local mode activated")
-    # Insert conversion logic
+    with tempfile.TemporaryDirectory(prefix="temp_", dir=config.OUTPUT_FOLDER) as temp_folder_name:
+        temp_folder = config.OUTPUT_FOLDER / temp_folder_name
+
+        for pdf_file in pdf_path_list:
+            image_object = pdf.read_pdf(pdf_file, temp_folder)
+
 
 
 def remote_mode() -> None:
@@ -38,8 +44,9 @@ def remote_mode() -> None:
         scraper.download_pdf(temp_folder)
 
         # sanity check
-        downloaded_files = [file.name for file in list(temp_folder.glob("*.pdf"))]
+        downloaded_files = list(temp_folder.glob("*.pdf"))
         if downloaded_files:
+            downloaded_files_names = [file.name for file in downloaded_files]
             log.debug("Downloaded: ", downloaded_files)
         else:
             log.warning("No files downloaded; try local mode instead")
@@ -47,14 +54,27 @@ def remote_mode() -> None:
             sys.exit(1)
 
         # Convert to PIL
-        # Export to output dir
+        if len(downloaded_files) == 2:
+            a4_image = pdf.read_pdf(temp_folder / config.PDF_FILE_NAME.a4, temp_folder)
+            letter_image = pdf.read_pdf(temp_folder / config.PDF_FILE_NAME.letter, temp_folder)
+
+            # Export to output dir
+            webp.save_a4(a4_image)
+            webp.save_letter(letter_image)
+        else:
+            log.warning("Too many PDFs downloaded. Unable to automatically rename")
+            for file in downloaded_files:
+                image_object = pdf.read_pdf(file, temp_folder)
+                webp.save(image_object, config.OUTPUT_FOLDER / f"{file.stem}.webp")
+
+    log.info("Completed!")
 
 
 if __name__ == "__main__":
     log.info("----- Weather Ball -----")
     local = io.get_local_inputs()
     if local:
-        local_mode()
+        local_mode(local)
         logger.shutdown_logger()
         sys.exit(0)
 
