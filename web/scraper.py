@@ -25,6 +25,7 @@ log = logger.get_logger(__name__)
 
 
 def get_base_selector(uri: str) -> Selector:
+    log.info("Fetching Pokemon website contents")
     raw_content = requests.get(
         uri,
         headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0"},
@@ -34,6 +35,7 @@ def get_base_selector(uri: str) -> Selector:
 
 
 def get_links(uri: str) -> list[str]:
+    log.info("Extracting relevant links")
     selector = get_base_selector(uri)
     return selector.xpath("//div[@class='full-article-body']/ul[2]/a[contains(., 'Deck List')]/@href").getall()
 

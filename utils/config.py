@@ -23,8 +23,12 @@ from pathlib import Path
 TARGET_URI = "https://www.pokemon.com/us/play-pokemon/about/tournaments-rules-and-resources"
 OUTPUT_FOLDER = Path.cwd() / "out"
 
-DeckListType = namedtuple("DeckListType", "a4 letter")
+DeckListType = namedtuple("DeckListType", "letter a4")
+PDF_FILE_NAME = DeckListType(
+    "pokemon_decklist_letter.pdf",
+    "pokemon_decklist_a4.pdf",
+)
 OUTPUT_FILE_NAME = DeckListType(
-    "pokemon_decklist_a4.webp",
     "pokemon_decklist_letter.webp",
+    "pokemon_decklist_a4.webp",
 )
