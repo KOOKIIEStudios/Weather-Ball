@@ -16,5 +16,15 @@
 #
 # Contact via Discord: `sessionkookiie`
 
+from collections import namedtuple
+from pathlib import Path
+
 
 TARGET_URI = "https://www.pokemon.com/us/play-pokemon/about/tournaments-rules-and-resources"
+OUTPUT_FOLDER = Path.cwd() / "out"
+
+DeckListType = namedtuple("DeckListType", "a4 letter")
+OUTPUT_FILE_NAME = DeckListType(
+    "pokemon_decklist_a4.webp",
+    "pokemon_decklist_letter.webp",
+)
