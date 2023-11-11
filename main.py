@@ -17,19 +17,23 @@
 # Contact via Discord: `sessionkookiie`
 
 import sys
+import tempfile
 
-from utils import logger
+from utils import config, logger
+from web import Web
 
 log = logger.get_logger(__name__)
 
 
 if __name__ == "__main__":
-    log.info("Hello world!")
+    log.info("----- Weather Ball -----")
 
-    # Scraper - get links
-    # Download PDF to temp dir
-    # Convert to PIL
-    # Export to output dir
+    scraper = Web(config.TARGET_URI)
+    with tempfile.TemporaryDirectory(prefix="temp_", dir=config.OUTPUT_FOLDER) as temp_folder_name:
+        temp_folder = config.OUTPUT_FOLDER / temp_folder_name
+        scraper.download_pdf(temp_folder)
+        # Convert to PIL
+        # Export to output dir
 
     logger.shutdown_logger()
     sys.exit(0)
