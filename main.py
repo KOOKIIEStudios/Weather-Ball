@@ -25,19 +25,43 @@ from web import Web
 log = logger.get_logger(__name__)
 
 
+def handle_expected_pdf(input_folder, temp_folder) -> None:
+    # Read PDF file to Python Image object
+    a4_image = pdf.read_pdf(input_folder / config.PDF_FILE_NAME.a4, temp_folder)
+    letter_image = pdf.read_pdf(input_folder / config.PDF_FILE_NAME.letter, temp_folder)
+
+    # Export as webp to output dir
+    webp.save_a4(a4_image)
+    webp.save_letter(letter_image)
+
+
+def handle_unexpected_pdf(pdf_path_list: list, temp_folder) -> None:
+    log.warning("Too many PDFs downloaded. Unable to automatically rename")
+    for pdf_file in pdf_path_list:
+        image_object = pdf.read_pdf(pdf_file, temp_folder)
+        webp.save(image_object, config.OUTPUT_FOLDER / f"{pdf_file.stem}.webp")
+
+
 def local_mode(pdf_path_list: list) -> None:
     log.info("PDF files found in local input folder; local mode activated")
+
     with tempfile.TemporaryDirectory(prefix="temp_", dir=config.OUTPUT_FOLDER) as temp_folder_name:
         temp_folder = config.OUTPUT_FOLDER / temp_folder_name
 
-        for pdf_file in pdf_path_list:
-            image_object = pdf.read_pdf(pdf_file, temp_folder)
+        if len(pdf_path_list) == 2:
+            io.rename_local_files(pdf_path_list)
+            handle_expected_pdf(config.INPUT_FOLDER, temp_folder)
 
+        else:
+            handle_unexpected_pdf(pdf_path_list, temp_folder)
+
+    log.info("Completed!")
 
 
 def remote_mode() -> None:
     log.info("No local files detected; remote mode activated")
     log.info("Attempting to scrape and download PDFs")
+
     scraper = Web(config.TARGET_URI)
     with tempfile.TemporaryDirectory(prefix="temp_", dir=config.OUTPUT_FOLDER) as temp_folder_name:
         temp_folder = config.OUTPUT_FOLDER / temp_folder_name
@@ -55,17 +79,9 @@ def remote_mode() -> None:
 
         # Convert to PIL
         if len(downloaded_files) == 2:
-            a4_image = pdf.read_pdf(temp_folder / config.PDF_FILE_NAME.a4, temp_folder)
-            letter_image = pdf.read_pdf(temp_folder / config.PDF_FILE_NAME.letter, temp_folder)
-
-            # Export to output dir
-            webp.save_a4(a4_image)
-            webp.save_letter(letter_image)
+            handle_expected_pdf(temp_folder, temp_folder)
         else:
-            log.warning("Too many PDFs downloaded. Unable to automatically rename")
-            for file in downloaded_files:
-                image_object = pdf.read_pdf(file, temp_folder)
-                webp.save(image_object, config.OUTPUT_FOLDER / f"{file.stem}.webp")
+            handle_unexpected_pdf(downloaded_files, temp_folder)
 
     log.info("Completed!")
 

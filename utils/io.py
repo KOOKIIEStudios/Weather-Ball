@@ -15,6 +15,8 @@
 # along with Weather Ball. If not, see <https://www.gnu.org/licenses/>.
 #
 # Contact via Discord: `sessionkookiie`
+from pathlib import Path
+
 from utils import config, logger
 
 log = logger.get_logger(__name__)
@@ -23,3 +25,15 @@ log = logger.get_logger(__name__)
 def get_local_inputs():
     log.info("Checking for files in input folder")
     return list(config.INPUT_FOLDER.glob("*.pdf"))
+
+
+def rename_local_files(list_of_files: list[Path]):
+    """Rename official file names to CastFORM format"""
+    for file in list_of_files:
+        if "a4" in file.stem:
+            file.rename(file.parent / config.PDF_FILE_NAME.a4)
+            continue
+        if "85x11" in file.stem:
+            file.rename(file.parent / config.PDF_FILE_NAME.letter)
+            continue
+        log.warning("Unexpected PDF name: ", file.name)
