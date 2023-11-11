@@ -3,7 +3,17 @@ Weather Ball is a Python script that generates templates for CastFORM.
 It automatically searches for the official registration sheet from Pokémon's official website, downloads a copy, and converts it to `webp` for use in CastFORM.
 
 Note that since the official website uses Incapsula protection, your mileage may vary.  
-It's very likely that this script will not do anything for you.
+
+Weather Ball supports 2 modes of operation:
+- Local Mode
+  - Converts PDFs in the `/in` folder to `webp` in `/out`
+  - Activated whenever there are PDF files present in this folder
+  - This is a contingency measure created after I realised the site uses Incapsula
+- Remote Mode
+  - Activated when there are no PDFs in the `/in` folder
+  - Scrapes the Pokémon website for download links, to download the latest versions
+  - Downloads are saved as temp files, which get deleted after use
+  - This was the original project algorithm
 
 ## Tech Stack
 Weather Ball is developed using Python 3.12 and Poppler. The entry point is `main.py`.  

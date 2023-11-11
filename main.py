@@ -25,9 +25,22 @@ from web import Web
 log = logger.get_logger(__name__)
 
 
+def get_local_inputs():
+    return list(config.INPUT_FOLDER.glob("*.pdf"))
+
+
 if __name__ == "__main__":
     log.info("----- Weather Ball -----")
+    local = get_local_inputs()
+    if local:
+        log.info("PDF files found in local input folder; local mode activated")
+        # Insert conversion logic
 
+        logger.shutdown_logger()
+        sys.exit(0)
+
+    log.info("No local files detected; remote mode activated")
+    log.info("Attempting to scrape and download PDFs")
     scraper = Web(config.TARGET_URI)
     with tempfile.TemporaryDirectory(prefix="temp_", dir=config.OUTPUT_FOLDER) as temp_folder_name:
         temp_folder = config.OUTPUT_FOLDER / temp_folder_name
@@ -38,7 +51,10 @@ if __name__ == "__main__":
         if downloaded_files:
             log.debug("Downloaded: ", downloaded_files)
         else:
-            log.warning("No files downloaded")
+            log.warning("No files downloaded; terminating...")
+            logger.shutdown_logger()
+            sys.exit(1)
+
         # Convert to PIL
         # Export to output dir
 

@@ -21,6 +21,7 @@ from pathlib import Path
 
 
 TARGET_URI = "https://www.pokemon.com/us/play-pokemon/about/tournaments-rules-and-resources"
+INPUT_FOLDER = Path.cwd() / "in"
 OUTPUT_FOLDER = Path.cwd() / "out"
 
 DeckListType = namedtuple("DeckListType", "letter a4")
