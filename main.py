@@ -35,7 +35,10 @@ if __name__ == "__main__":
 
         # sanity check
         downloaded_files = [file.name for file in list(temp_folder.glob("*.pdf"))]
-        log.debug("Downloaded: ", downloaded_files)
+        if downloaded_files:
+            log.debug("Downloaded: ", downloaded_files)
+        else:
+            log.warning("No files downloaded")
         # Convert to PIL
         # Export to output dir
 
