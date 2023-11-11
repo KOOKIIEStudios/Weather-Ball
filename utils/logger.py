@@ -24,13 +24,17 @@ from logging.handlers import TimedRotatingFileHandler
 # Use a config file for these, in larger projects:
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 FORMATTER = logging.Formatter(LOG_FORMAT)
-LOG_DIR = Path("logs")
+LOG_FOLDER_NAME = "logs"
+LOG_DIR = Path.cwd() / LOG_FOLDER_NAME
+LOG_DIR_ALT = Path.cwd().parent / LOG_FOLDER_NAME
 ACTIVE_LOG_NAME = "logger.log"
 
 
 def get_log_path():
     if LOG_DIR.exists():
         return Path(LOG_DIR, ACTIVE_LOG_NAME)
+    elif LOG_DIR_ALT.exists():
+        return Path(LOG_DIR_ALT, ACTIVE_LOG_NAME)
     raise FileNotFoundError(2, "Log output directory could not be found!")
 
 
