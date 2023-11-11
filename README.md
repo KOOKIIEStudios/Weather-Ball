@@ -16,7 +16,7 @@ Weather Ball supports 2 modes of operation:
   - This was the original project algorithm
 
 ## A rose by any other name would smell as sweet
-Weather Bell is designed as a part of the toolchain for [CastFORM](https://github.com/BAA-Studios/CastFORM), a Pokémon registration sheet filler.  
+Weather Ball is designed as a part of the toolchain for [CastFORM](https://github.com/BAA-Studios/CastFORM), a Pokémon registration sheet filler.  
 Being a form-automation application based around Pokémon TCG, CastFORM is a play on words using the name of one of the 
 playable Pokémon.   
 This project inherits its name from Castform's unique skill in the game. 
