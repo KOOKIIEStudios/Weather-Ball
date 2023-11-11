@@ -15,7 +15,6 @@
 # along with Weather Ball. If not, see <https://www.gnu.org/licenses/>.
 #
 # Contact via Discord: `sessionkookiie`
-
 import sys
 import tempfile
 

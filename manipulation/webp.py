@@ -15,3 +15,6 @@
 # along with Weather Ball. If not, see <https://www.gnu.org/licenses/>.
 #
 # Contact via Discord: `sessionkookiie`
+from utils import logger
+
+log = logger.get_logger(__name__)

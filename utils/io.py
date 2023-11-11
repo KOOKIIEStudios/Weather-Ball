@@ -15,8 +15,11 @@
 # along with Weather Ball. If not, see <https://www.gnu.org/licenses/>.
 #
 # Contact via Discord: `sessionkookiie`
-from utils import config
+from utils import config, logger
+
+log = logger.get_logger(__name__)
 
 
 def get_local_inputs():
+    log.info("Checking for files in input folder")
     return list(config.INPUT_FOLDER.glob("*.pdf"))
