@@ -71,7 +71,7 @@ def remote_mode() -> None:
         downloaded_files = list(temp_folder.glob("*.pdf"))
         if downloaded_files:
             downloaded_files_names = [file.name for file in downloaded_files]
-            log.debug("Downloaded: ", downloaded_files)
+            log.debug("Downloaded: %s", downloaded_files)
         else:
             log.warning("No files downloaded; try local mode instead")
             logger.shutdown_logger()

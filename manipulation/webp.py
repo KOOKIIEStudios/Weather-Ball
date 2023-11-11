@@ -25,7 +25,7 @@ log = logger.get_logger(__name__)
 
 
 def save(image_object: Image, file_path: Path) -> None:
-    log.info("Saving as ", file_path.name)
+    log.info("Saving as %s", file_path.name)
     image_object.save(
         file_path,
         format="WEBP",

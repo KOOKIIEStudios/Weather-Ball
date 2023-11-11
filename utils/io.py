@@ -36,4 +36,5 @@ def rename_local_files(list_of_files: list[Path]):
         if "85x11" in file.stem:
             file.rename(file.parent / config.PDF_FILE_NAME.letter)
             continue
-        log.warning("Unexpected PDF name: ", file.name)
+        if "letter" not in file.stem:
+            log.warning("Unexpected PDF name: %s", file.name)
