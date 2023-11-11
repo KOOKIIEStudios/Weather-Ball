@@ -19,26 +19,18 @@
 import sys
 import tempfile
 
-from utils import config, logger
+from utils import config, io, logger
 from web import Web
 
 log = logger.get_logger(__name__)
 
 
-def get_local_inputs():
-    return list(config.INPUT_FOLDER.glob("*.pdf"))
+def local_mode() -> None:
+    log.info("PDF files found in local input folder; local mode activated")
+    # Insert conversion logic
 
 
-if __name__ == "__main__":
-    log.info("----- Weather Ball -----")
-    local = get_local_inputs()
-    if local:
-        log.info("PDF files found in local input folder; local mode activated")
-        # Insert conversion logic
-
-        logger.shutdown_logger()
-        sys.exit(0)
-
+def remote_mode() -> None:
     log.info("No local files detected; remote mode activated")
     log.info("Attempting to scrape and download PDFs")
     scraper = Web(config.TARGET_URI)
@@ -51,12 +43,22 @@ if __name__ == "__main__":
         if downloaded_files:
             log.debug("Downloaded: ", downloaded_files)
         else:
-            log.warning("No files downloaded; terminating...")
+            log.warning("No files downloaded; try local mode instead")
             logger.shutdown_logger()
             sys.exit(1)
 
         # Convert to PIL
         # Export to output dir
 
+
+if __name__ == "__main__":
+    log.info("----- Weather Ball -----")
+    local = io.get_local_inputs()
+    if local:
+        local_mode()
+        logger.shutdown_logger()
+        sys.exit(0)
+
+    remote_mode()
     logger.shutdown_logger()
     sys.exit(0)
