@@ -32,6 +32,10 @@ if __name__ == "__main__":
     with tempfile.TemporaryDirectory(prefix="temp_", dir=config.OUTPUT_FOLDER) as temp_folder_name:
         temp_folder = config.OUTPUT_FOLDER / temp_folder_name
         scraper.download_pdf(temp_folder)
+
+        # sanity check
+        downloaded_files = [file.name for file in list(temp_folder.glob("*.pdf"))]
+        log.debug("Downloaded: ", ", ".join(downloaded_files))
         # Convert to PIL
         # Export to output dir
 
