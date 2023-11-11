@@ -23,7 +23,10 @@ This project inherits its name from Castform's unique skill in the game.
 
 ## Tech Stack
 Weather Ball is developed using Python 3.12 and Poppler. The entry point is `main.py`.  
-If you're using Chocolatey, install them using the following command: `choco install python poppler`
+If you're using Chocolatey, install Python using the following command: `choco install python`, which should automatically add Python to Path.
+
+The community build for Poppler on Chocolatey doesn't extract shims properly, for Windows, [download it](https://github.com/oschwartz10612/poppler-windows/releases/) manually and add to `PATH`.  
+Many Linux distributions should already ship with Poppler. If you get an error for missing Poppler, check your package manager for `poppler-utils`.
 
 ## Usage
 1. Clone, and `cd` to this repository
