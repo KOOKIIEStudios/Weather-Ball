@@ -22,6 +22,13 @@ from utils import config, logger
 log = logger.get_logger(__name__)
 
 
+def clear_outputs_folder() -> None:
+    log.info("Clearing output folder")
+    pdf_files = config.OUTPUT_FOLDER.glob("*.pdf")
+    for file in pdf_files:
+        file.unlink()
+
+
 def get_local_inputs():
     log.info("Checking for files in input folder")
     return list(config.INPUT_FOLDER.glob("*.pdf"))

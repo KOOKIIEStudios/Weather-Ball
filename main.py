@@ -88,12 +88,11 @@ def remote_mode() -> None:
 
 if __name__ == "__main__":
     log.info("----- Weather Ball -----")
-    local = io.get_local_inputs()
-    if local:
-        local_mode(local)
-        logger.shutdown_logger()
-        sys.exit(0)
-
-    remote_mode()
+    io.clear_outputs_folder()
+    local_files = io.get_local_inputs()
+    if local_files:
+        local_mode(local_files)
+    else:
+        remote_mode()
     logger.shutdown_logger()
     sys.exit(0)
