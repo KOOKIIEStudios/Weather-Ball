@@ -27,7 +27,9 @@ log = logger.get_logger(__name__)
 
 def handle_expected_pdf(input_folder, temp_folder) -> None:
     # Read PDF file to Python Image object
+    log.debug(f"Processing {input_folder / config.PDF_FILE_NAME.a4}")
     a4_image = pdf.read_pdf(input_folder / config.PDF_FILE_NAME.a4, temp_folder)
+    log.debug(f"Processing {input_folder / config.PDF_FILE_NAME.letter}")
     letter_image = pdf.read_pdf(input_folder / config.PDF_FILE_NAME.letter, temp_folder)
 
     # Export as webp to output dir
@@ -70,7 +72,6 @@ def remote_mode() -> None:
         # sanity check
         downloaded_files = list(temp_folder.glob("*.pdf"))
         if downloaded_files:
-            downloaded_files_names = [file.name for file in downloaded_files]
             log.debug("Downloaded: %s", downloaded_files)
         else:
             log.warning("No files downloaded; try local mode instead")
@@ -81,6 +82,7 @@ def remote_mode() -> None:
         if len(downloaded_files) == 2:
             handle_expected_pdf(temp_folder, temp_folder)
         else:
+            log.debug("More than 2 files downloaded!")
             handle_unexpected_pdf(downloaded_files, temp_folder)
 
     log.info("Completed!")
