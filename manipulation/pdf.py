@@ -28,9 +28,10 @@ from utils import logger
 log = logger.get_logger(__name__)
 
 
-def read_pdf(pdf: Path, temp_folder: Path):
+def read_pdf(pdf: Path):
+    log.debug(f"Reading file: {pdf}")
     try:
-        output = convert_from_path(pdf, dpi=300, output_folder=temp_folder, single_file=True)
+        output = convert_from_path(pdf, dpi=300, single_file=True)
         return output[0]
     except PDFInfoNotInstalledError:
         log.error("Poppler not detected! See README for installation instructions.")

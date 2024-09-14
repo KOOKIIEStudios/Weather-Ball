@@ -25,37 +25,32 @@ from web import Web
 log = logger.get_logger(__name__)
 
 
-def handle_expected_pdf(input_folder, temp_folder) -> None:
+def handle_expected_pdf(input_folder) -> None:
     # Read PDF file to Python Image object
-    log.debug(f"Processing {input_folder / config.PDF_FILE_NAME.a4}")
-    a4_image = pdf.read_pdf(input_folder / config.PDF_FILE_NAME.a4, temp_folder)
-    log.debug(f"Processing {input_folder / config.PDF_FILE_NAME.letter}")
-    letter_image = pdf.read_pdf(input_folder / config.PDF_FILE_NAME.letter, temp_folder)
+    a4_image = pdf.read_pdf(input_folder / config.PDF_FILE_NAME.a4)
+    letter_image = pdf.read_pdf(input_folder / config.PDF_FILE_NAME.letter)
 
     # Export as webp to output dir
     webp.save_a4(a4_image)
     webp.save_letter(letter_image)
 
 
-def handle_unexpected_pdf(pdf_path_list: list, temp_folder) -> None:
+def handle_unexpected_pdf(pdf_path_list: list) -> None:
     log.warning("Too many PDFs downloaded. Unable to automatically rename")
     for pdf_file in pdf_path_list:
-        image_object = pdf.read_pdf(pdf_file, temp_folder)
+        image_object = pdf.read_pdf(pdf_file)
         webp.save(image_object, config.OUTPUT_FOLDER / f"{pdf_file.stem}.webp")
 
 
 def local_mode(pdf_path_list: list) -> None:
     log.info("PDF files found in local input folder; local mode activated")
 
-    with tempfile.TemporaryDirectory(prefix="temp_", dir=config.OUTPUT_FOLDER) as temp_folder_name:
-        temp_folder = config.OUTPUT_FOLDER / temp_folder_name
+    if len(pdf_path_list) == 2:
+        io.rename_local_files(pdf_path_list)
+        handle_expected_pdf(config.INPUT_FOLDER)
 
-        if len(pdf_path_list) == 2:
-            io.rename_local_files(pdf_path_list)
-            handle_expected_pdf(config.INPUT_FOLDER, temp_folder)
-
-        else:
-            handle_unexpected_pdf(pdf_path_list, temp_folder)
+    else:
+        handle_unexpected_pdf(pdf_path_list)
 
     log.info("Completed!")
 
@@ -80,10 +75,10 @@ def remote_mode() -> None:
 
         # Convert to PIL
         if len(downloaded_files) == 2:
-            handle_expected_pdf(temp_folder, temp_folder)
+            handle_expected_pdf(temp_folder)
         else:
             log.debug("More than 2 files downloaded!")
-            handle_unexpected_pdf(downloaded_files, temp_folder)
+            handle_unexpected_pdf(downloaded_files)
 
     log.info("Completed!")
 

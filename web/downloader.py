@@ -26,6 +26,8 @@ log = logger.get_logger(__name__)
 def download_pdf(link: str, location: Path) -> None:
     log.info("Downloading: %s", link)
     response = requests.get(link, stream=True)
+    if response.status_code != 200:
+        log.error(f"Unable to reach URI! Status code: {response.status_code}")
     with open(location, "wb") as pdf_file:
         for chunk in response.iter_content(chunk_size=128):
             pdf_file.write(chunk)
