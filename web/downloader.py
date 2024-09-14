@@ -32,6 +32,12 @@ def download_pdf(link: str, location: Path) -> None:
 
 
 def download_all_pdf(links: list[str], temp_folder: Path) -> None:
-    for index, link in enumerate(links):
-        file_path = temp_folder / config.PDF_FILE_NAME[index]
-        download_pdf(link, file_path)
+    if len(links) != len(config.PDF_FILE_NAME):  # More files than expected
+        for link in links:
+            tokens = link.split("/")  # Use original file name
+            file_path = temp_folder / tokens[-1]
+            download_pdf(link, file_path)
+    else:
+        for index, link in enumerate(links):
+            file_path = temp_folder / config.PDF_FILE_NAME[index]
+            download_pdf(link, file_path)
