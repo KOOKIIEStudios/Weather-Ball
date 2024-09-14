@@ -35,7 +35,10 @@ def get_base_selector(uri: str) -> Selector:
 def get_links(uri: str) -> list[str]:
     log.info("Extracting relevant links")
     selector = get_base_selector(uri)
-    suffixes = selector.xpath("//div[@class='full-article-body']/ul[2]/a[contains(., 'Deck List')]/@href").getall()
+    target_table = selector.xpath("//div[@class='full-article-body']/ul[2]")
+    target_rows = target_table.xpath(".//a[contains(., 'Deck List')]/@href")
+    suffixes = target_rows.getall()
+
     log.debug("Suffixes: %s", ", ".join(suffixes))
     links = [f"https://www.pokemon.com{suffix}" for suffix in suffixes]
     log.debug("Download Links: %s", ", ".join(links))
@@ -44,8 +47,8 @@ def get_links(uri: str) -> list[str]:
 
 # For debug use only
 if __name__ == "__main__":
-    selector = get_base_selector("https://www.pokemon.com/us/play-pokemon/about/tournaments-rules-and-resources")
-    target_table = selector.xpath("//div[@class='full-article-body']/ul[2]")
-    log.debug(target_table.getall())
-    line_selector = target_table.xpath(".//a[contains(., 'Deck List')]/@href")
+    test_selector = get_base_selector("https://www.pokemon.com/us/play-pokemon/about/tournaments-rules-and-resources")
+    test_target_table = test_selector.xpath("//div[@class='full-article-body']/ul[2]")
+    log.debug(test_target_table.getall())
+    line_selector = test_target_table.xpath(".//a[contains(., 'Deck List')]/@href")
     log.debug(line_selector.getall())
