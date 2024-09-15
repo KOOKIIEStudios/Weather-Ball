@@ -25,7 +25,18 @@ log = logger.get_logger(__name__)
 
 def download_pdf(link: str, location: Path) -> None:
     log.info("Downloading: %s", link)
-    response = requests.get(link, stream=True)
+    response = requests.get(
+        link,
+        headers={
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8",
+            "Accept-Encoding": "gzip, deflate, br, zstd",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Connection": "keep-alive",
+            "Referer": "https://www.pokemon.com/us/play-pokemon/about/tournaments-rules-and-resources",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0"
+        },
+        stream=True,
+    )
     if response.status_code != 200:
         log.error(f"Unable to reach URI! Status code: {response.status_code}")
     with open(location, "wb") as pdf_file:
